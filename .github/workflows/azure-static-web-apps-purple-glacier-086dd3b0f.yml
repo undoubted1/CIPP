@@ -30,7 +30,11 @@ jobs:
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "/" # App source code path
           api_location: "" # Api source code path - optional
-          output_location: "/out" # Built app content directory - optional
+          # NOTE: output_location must be a *relative* path. A leading slash makes it look for '/out'
+          # on the runner (which results in deploying an empty site and a SWA 404 page).
+          # Also copy staticwebapp.config.json into the exported output so SWA auth/routes work.
+          app_build_command: "npm run build && cp staticwebapp.config.json out/"
+          output_location: "out" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
